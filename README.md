@@ -1,3 +1,7 @@
+#Overview
+
+This app was develop from Udemy curse angular4, instructor @tarsobessa
+
 # Meat - Angular App Starter
 
 ## 1. Passos para começar

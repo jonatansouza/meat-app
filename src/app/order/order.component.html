@@ -1,0 +1,105 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+    {{form.valid}} {{ form.value | json }}
+
+    <!-- nonalidade retirar validacoes do browser -->
+    <form novalidate #form="ngForm">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+          </h2>
+        </div>
+      </div>
+
+      <div class="row invoice-info">
+        <div class="col-xs-12">
+          <p class="lead">Endereço de Entrega:</p>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container errorMessage="Campo obrigatorio e com cinco caractesres" label="endereço">
+            <input name="address" class="form-control" placeholder="Endereço" ngModel required minlength="5" autocomplete="off">
+          </mt-input-container>
+        </div>
+
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container errorMessage="Somente Numeros" label="Número">
+            <input type="text" class="form-control" pattern="^[0-9]*$" required name="number" ngModel placeholder="Número" autocomplete="off">
+          </mt-input-container>
+
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container>
+            <input type="text" class="form-control" name="optional" ngModel placeholder="Complemento">
+          </mt-input-container>
+          <!-- /.row -->
+        </div>
+      </div>
+      <!-- Table row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="lead">Itens do Pedido:</p>
+        </div>
+
+        <mt-order-items ></mt-order-items>
+
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Formas de Pagamento:</p>
+
+          <div class="form-group">
+
+            <mt-radio [options]="paymentOptions" name="paymentOption" ngModel></mt-radio>
+
+          </div>
+
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Frete e Total:</p>
+
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th style="width:50%">Itens:</th>
+                  <td class="text-right">R$ 20,00</td>
+                </tr>
+                <tr>
+                  <th>Frete:</th>
+                  <td class="text-right">R$ 8,00</td>
+                </tr>
+                <tr>
+                  <th>Total:</th>
+                  <td class="text-right">R$ 28,00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- /.col -->
+      </div>
+
+    </form>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button href="order-summary.html" class="btn btn-success pull-right">
+          <i class="fa fa-credit-card"></i> Concluir Pedido
+        </button>
+      </div>
+    </div>
+
+  </section>
+</section>
+<!-- FIM DO CONTEUDO-->

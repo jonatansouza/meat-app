@@ -6,7 +6,7 @@
   <section class="invoice">
 
     <!-- nonalidade retirar validacoes do browser -->
-    <form novalidate #form="ngForm">
+    <form novalidate [formGroup]="orderForm">
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
@@ -15,25 +15,52 @@
         </div>
       </div>
 
-      <div class="row invoice-info">
+      <!-- Reactive forms -->
+      <div class="row">
+        <div class="col-xs-12 col-sm-9">
+          <p class="lead"> Seus dados:</p>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+          <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailsNotMatch')">
+            <i class="fa fa-remove"></i> Emails não conferem
+          </span>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container errorMessage="Campo obrigatorio e com cinco caractesres" label="name">
+            <input formControlName="name" class="form-control" placeholder="Nome"  autocomplete="off">
+          </mt-input-container>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container errorMessage="email invalido" label="email">
+            <input type="text" class="form-control" formControlName="email" placeholder="confirmação" autocomplete="off">
+          </mt-input-container>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+            <mt-input-container errorMessage="email invalido" label="email">
+              <input type="text" class="form-control" formControlName="emailConfirmation" placeholder="confirmação" autocomplete="off">
+            </mt-input-container>
+          </div>
+      </div>
+
+      <div class="row">
         <div class="col-xs-12">
           <p class="lead">Endereço de Entrega:</p>
         </div>
         <div class="col-sm-6 col-xs-12">
           <mt-input-container errorMessage="Campo obrigatorio e com cinco caractesres" label="endereço">
-            <input name="address" class="form-control" placeholder="Endereço" ngModel required minlength="5" autocomplete="off">
+            <input formControlName="address" class="form-control" placeholder="Endereço"  autocomplete="off">
           </mt-input-container>
         </div>
 
         <div class="col-sm-3 col-xs-6">
           <mt-input-container errorMessage="Somente Numeros" label="Número">
-            <input type="text" class="form-control" pattern="^[0-9]*$" required name="number" ngModel placeholder="Número" autocomplete="off">
+            <input type="text" class="form-control" formControlName="number" placeholder="Número" autocomplete="off">
           </mt-input-container>
 
         </div>
         <div class="col-sm-3 col-xs-6">
           <mt-input-container>
-            <input type="text" class="form-control" name="optionalAddress" ngModel placeholder="Complemento">
+            <input type="text" class="form-control" formControlName="optionalAddress" placeholder="Complemento">
           </mt-input-container>
           <!-- /.row -->
         </div>
@@ -56,7 +83,7 @@
 
           <div class="form-group">
 
-            <mt-radio [options]="paymentOptions" name="paymentOption" ngModel required></mt-radio>
+            <mt-radio [options]="paymentOptions" formControlName="paymentOption" ></mt-radio>
 
           </div>
 
@@ -65,7 +92,7 @@
         <div class="col-sm-6 col-xs-12">
           <p class="lead">Frete e Total:</p>
 
-            <mt-delivery-costs [delivery]="delivery" [itemsValue]="itemsValue()"></mt-delivery-costs>
+          <mt-delivery-costs [delivery]="delivery" [itemsValue]="itemsValue()"></mt-delivery-costs>
         </div>
 
         <!-- /.col -->
@@ -75,7 +102,7 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <button (click)="checkOrder(form.value)" [disabled]="form.invalid || cartItems().length === 0" class="btn btn-success pull-right">
+        <button (click)="checkOrder(orderForm.value)" [disabled]="orderForm.invalid || cartItems().length === 0" class="btn btn-success pull-right">
           <i class="fa fa-credit-card"></i> Concluir Pedido
         </button>
       </div>

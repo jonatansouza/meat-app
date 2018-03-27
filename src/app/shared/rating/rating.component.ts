@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'mt-rating',
-  templateUrl: './rating.component.html',
-  styles: []
+  templateUrl: './rating.component.html'
 })
 export class RatingComponent implements OnInit {
 

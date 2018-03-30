@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-summary.component.css']
 })
 export class OrderSummaryComponent implements OnInit {
+  rated: boolean
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  rate(){
+    this.rated = true;
   }
 
 }

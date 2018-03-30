@@ -1,0 +1,3 @@
+para criar o build de producao utilizar o comando
+
+ng build --prod

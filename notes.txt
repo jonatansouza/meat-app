@@ -1,3 +1,7 @@
-para criar o build de producao utilizar o comando
+#para criar o build de producao utilizar o comando
 
 ng build --prod
+
+#caso seja necessario fazer o deploy em um subcaminho alterar o base-href
+
+ng build --prod --bh=/meat/

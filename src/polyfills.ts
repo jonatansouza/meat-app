@@ -21,3 +21,6 @@ import 'zone.js/dist/zone';
 //fix to BRL currency parten
 import 'intl'
 import 'intl/locale-data/jsonp/pt-BR.js'
+
+//imports for animations
+import 'web-animations-js/web-animations.min.js'

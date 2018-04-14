@@ -1,30 +1,34 @@
-import { Component, OnInit } from "@angular/core";
-import { RadioOption } from "../shared/radio/radio-option.model";
-import { OrderService } from "./order.service";
-import { CartItem } from "../restaurant-detail/shopping-cart/cart-item.model";
-import { Order, OrderItem } from "./order.model";
-import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators, AbstractControl } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { RadioOption } from '../shared/radio/radio-option.model';
+import { OrderService } from './order.service';
+import { CartItem } from '../restaurant-detail/shopping-cart/cart-item.model';
+import { Order, OrderItem } from './order.model';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import 'rxjs/add/operator/do'
+
 
 @Component({
-  selector: "mt-order",
-  templateUrl: "./order.component.html"
+  selector: 'mt-order',
+  templateUrl: './order.component.html'
 })
 export class OrderComponent implements OnInit {
 
-  emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  emailPattern = /^(([^<>()\[\]\.,;:\s@\']+(\.[^<>()\[\]\.,;:\s@\']+)*)|(\'.+\'))@(([^<>()[\]\.,;:\s@\']+\.)+[^<>()[\]\.,;:\s@\']{2,})$/i
   numberPattern = /^[0-9]*$/
 
   orderForm: FormGroup
 
-  delivery: number = 8;
+  delivery = 8;
+
+  orderId: string
 
   paymentOptions: RadioOption[] = [
-    { label: "Dinheiro", value: "MON" },
+    { label: 'Dinheiro', value: 'MON' },
 
-    { label: "Cartão de Débito", value: "DEB" },
+    { label: 'Cartão de Débito', value: 'DEB' },
 
-    { label: "Cartão Refeição", value: "REF" }
+    { label: 'Cartão Refeição', value: 'REF' }
   ];
 
   constructor(private orderService: OrderService,
@@ -46,11 +50,11 @@ export class OrderComponent implements OnInit {
   static equalsTo(group: AbstractControl) : { [key: string]: boolean } {
     const email = group.get('email')
     const emailConfirmation = group.get('emailConfirmation')
-    if(!email || !emailConfirmation){
+    if (!email || !emailConfirmation){
       return undefined
     }
 
-    if(email.value != emailConfirmation.value){
+    if (email.value !== emailConfirmation.value){
       return {emailsNotMatch: true}
     }
     return undefined
@@ -62,6 +66,10 @@ export class OrderComponent implements OnInit {
 
   cartItems(): CartItem[] {
     return this.orderService.cartItems();
+  }
+
+  isOrderCompleted(): boolean {
+    return this.orderId !== undefined
   }
 
   increaseQty(item: CartItem) {
@@ -81,14 +89,14 @@ export class OrderComponent implements OnInit {
       (item: CartItem) => new OrderItem(item.quantity, item.menuItem.id)
     );
 
-    this.orderService.checkOrder(order).subscribe((orderId: string) => {
+    this.orderService.checkOrder(order)
+    .do((irderId: string) => {
+      this.orderId = this.orderId
+    })
+    .subscribe((orderId: string) => {
       this.router.navigate(['/order-summary'])
       console.log(`compra concluida ${orderId}`)
       this.orderService.clear();
     })
-
-    console.log(order);
   }
-
-
 }
